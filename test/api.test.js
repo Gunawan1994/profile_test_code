@@ -61,34 +61,34 @@ describe('User, Comment, and Voting API', () => {
   it('should post a comment', async () => {
     const res = await request(app)
       .post('/api/comments')
-      .send({ profileId: profile._id, userId: user._id, text: 'Nice profile!' });
+      .send({ profile_id: profile._id, user_id: user._id, text: 'Halo!' });
     expect(res.statusCode).toBe(201);
-    expect(res.body.text).toBe('Nice profile!');
+    expect(res.body.text).toBe('Halo!');
   });
 
   it('should get comments for a profile', async () => {
     // First, create a comment
-    await Comment.create({ profileId: profile._id, userId: user._id, text: 'Nice profile!' });
+    await Comment.create({ profile: profile._id, user: user._id, text: 'Halo!' });
     const res = await request(app)
       .get('/api/comments')
-      .query({ profileId: profile._id });
+      .query({ profile_id: profile._id });
     expect(res.statusCode).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
-    expect(res.body[0].text).toBe('Nice profile!');
+    expect(res.body[0].text).toBe('Halo!');
   });
 
   it('should like and unlike a comment', async () => {
     // Create a comment first
-    const createdComment = await Comment.create({ profileId: profile._id, userId: user._id, text: 'Nice profile!' });
-    let res = await request(server)
+    const createdComment = await Comment.create({ profile: profile._id, user: user._id, text: 'Nice profile!' });
+    let res = await request(app)
       .post(`/api/comments/${createdComment._id}/like`)
-      .send({ userId: user._id });
+      .send({ user_id: user._id });
     expect(res.statusCode).toBe(200);
     expect(res.body.likes).toContain(user._id.toString());
 
-    res = await request(server)
+    res = await request(app)
       .post(`/api/comments/${createdComment._id}/unlike`)
-      .send({ userId: user._id });
+      .send({ user_id: user._id });
     expect(res.statusCode).toBe(200);
     expect(res.body.likes).not.toContain(user._id.toString());
   });

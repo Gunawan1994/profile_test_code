@@ -61,10 +61,12 @@ npm test
 - **GET /:id?**
   - Get a profile by ID (or the latest if no ID)
 
+
 ### User Endpoints
 - **POST /api/users**
   - Create a new user
   - Body: `{ "name": "string" }`
+
 
 ### Comment Endpoints
 - **POST /api/comments**
@@ -72,21 +74,22 @@ npm test
   - Body:
     ```json
     {
-      "profileId": "profile_id",
-      "userId": "user_id",
+      "profile_id": "profile_id",
+      "user_id": "user_id",
       "text": "string"
     }
     ```
-- **GET /api/comments?profileId=...&sortBy=createdAt&order=desc**
+- **GET /api/comments?profile_id=...&sort_by=createdAt&order=desc**
   - Get comments for a profile
+
 
 ### Voting Endpoints
 - **POST /api/comments/:id/like**
   - Like a comment
-  - Body: `{ "userId": "user_id" }`
+  - Body: `{ "user_id": "user_id" }`
 - **POST /api/comments/:id/unlike**
   - Unlike a comment
-  - Body: `{ "userId": "user_id" }`
+  - Body: `{ "user_id": "user_id" }`
 
 ## Frontend
 - The main profile page is rendered with EJS and styled to match the provided Figma design.
@@ -96,11 +99,12 @@ npm test
 - All data is lost when the server restarts (in-memory DB).
 - No authentication or file uploads are implemented.
 
+
 ## Example Like API Usage
 ```sh
-curl -X POST http://localhost:3000/api/comments/<commentId>/like \
+curl -X POST http://localhost:3000/api/comments/<comment_id>/like \
   -H "Content-Type: application/json" \
-  -d '{"userId": "<userId>"}'
+  -d '{"user_id": "<user_id>"}'
 ```
 
 ---
