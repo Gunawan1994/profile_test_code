@@ -18,14 +18,12 @@ app.use(express.json());
 app.use('/', require('./routes/profile')());
 app.use('/api', require('./routes/api'));
 
-// Function to connect to in-memory MongoDB and seed data
 async function startServer() {
   const mongod = await MongoMemoryServer.create();
   const uri = mongod.getUri();
   await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
   console.log('Connected to in-memory MongoDB');
 
-  // Seed initial profile data if not present
   const Profile = require('./models/Profile');
   const count = await Profile.countDocuments();
   if (count === 0) {
